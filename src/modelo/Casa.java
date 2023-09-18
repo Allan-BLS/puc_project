@@ -23,7 +23,7 @@ public class Casa extends Financiamento{
     }
 
     //Método Construtor
-    public Casa (double valorImovel, int prazoFinanciamento, double taxaJurosAnual, int areaConstruida, int areaTerreno){
+    public Casa (double valorImovel, int prazoFinanciamento, double taxaJurosAnual, int areaConstruida, int areaTerreno) throws DescontoMaiorDoQueJurosException {
         super(valorImovel, prazoFinanciamento, taxaJurosAnual);
         this.areaConstruida = areaConstruida;
         this.areaTerreno = areaTerreno;
@@ -31,10 +31,16 @@ public class Casa extends Financiamento{
     }
 
     //Método para desconto de R$100
-    private void descParc(){
-        descParcela = Math.min(calcPagMensal(), getdescMax());
+    private void descParc() throws DescontoMaiorDoQueJurosException {
+        try {
+            descParcela = Math.min(calcPagMensal(), getdescMax());
+            if (descParcela > getTaxaJurosAnual()) {
+                throw new DescontoMaiorDoQueJurosException("Desconto é maior do que taxa de juros anual");
+            }
+        }catch (DescontoMaiorDoQueJurosException e){
+            System.out.print("Erro: " + e.getMessage());
+        }
     }
-
     NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.of("pt", "BR"));
 
     // Método para Display

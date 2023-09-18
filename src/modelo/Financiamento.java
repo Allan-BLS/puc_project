@@ -30,10 +30,12 @@ public abstract class Financiamento {
         double taxaMensal = (getTaxaJurosAnual()/ 12.0) / 100.0;
         int numeroPagamentos = getPrazoFinanciamento() * 12;
         double parcelaMensal;
+
         parcelaMensal = getValorImovel() * (taxaMensal * Math.pow(1 + taxaMensal, numeroPagamentos)) /
                 (Math.pow(1 + taxaMensal, numeroPagamentos) - 1);
         return parcelaMensal;
     }
+
     //Método para Cálculo do Pagamento Total
     public double calPagTotal (){
         return calcPagMensal() * getPrazoFinanciamento() * 12;

@@ -1,11 +1,9 @@
 //pacote main
 package main;
 //Importação das classes
-import modelo.Apartamento;
-import modelo.Casa;
-import modelo.Terreno;
+import modelo.*;
 import util.InterfaceUsuario;
-import modelo.Financiamento;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -13,7 +11,7 @@ import java.util.Locale;
 //Criação da classe Main
 public class Main {
     //Começo do programa
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DescontoMaiorDoQueJurosException {
         //Criação da lista
         ArrayList<Financiamento> listaFinanciamento = new ArrayList<>();
 
