@@ -1,19 +1,16 @@
 package modelo;
 import java.text.NumberFormat;
 import java.util.Locale;
-public class Casa extends Financiamento{
+import util.InterfaceUsuario;
+public class Casa extends Financiamento {
     //Atributos da classe
-    private static final double descMax = 100.0;
-    private double descParcela;
+    private final double descMax = 100;
     private final int areaConstruida;
     private final int areaTerreno;
 
     //Getters para acessos dos atributos encapsulados
-    public double getdescMax (){
+    public double getdescMax() {
         return descMax;
-    }
-    public double getDescParc(){
-        return descParcela;
     }
     public double getAreaConstruida() {
         return areaConstruida;
@@ -23,36 +20,64 @@ public class Casa extends Financiamento{
     }
 
     //Método Construtor
-    public Casa (double valorImovel, int prazoFinanciamento, double taxaJurosAnual, int areaConstruida, int areaTerreno) throws DescontoMaiorDoQueJurosException {
+    public Casa(double valorImovel, int prazoFinanciamento, double taxaJurosAnual, int areaConstruida, int areaTerreno){
         super(valorImovel, prazoFinanciamento, taxaJurosAnual);
         this.areaConstruida = areaConstruida;
         this.areaTerreno = areaTerreno;
-        descParc();
+        calcJurosMensal();
     }
-
-    //Método para desconto de R$100
-    private void descParc() throws DescontoMaiorDoQueJurosException {
-        try {
-            descParcela = Math.min(calcPagMensal(), getdescMax());
-            if (descParcela > getTaxaJurosAnual()) {
-                throw new DescontoMaiorDoQueJurosException("Desconto é maior do que taxa de juros anual");
-            }
-        }catch (DescontoMaiorDoQueJurosException e){
-            System.out.print("Erro: " + e.getMessage());
+    //Método para Cálculo do Pagamento Mensal
+    public double calcPagMensal(){
+        double taxaMensal = (getTaxaJurosAnual() / 12.0) / 100.0;
+        int numeroPagamentos = getPrazoFinanciamento() * 12;
+        double pagamentoMensal = getValorImovel() * (taxaMensal * Math.pow(1 + taxaMensal, numeroPagamentos)) /
+                (Math.pow(1 + taxaMensal, numeroPagamentos) - 1);
+        if (pagamentoMensal > getdescMax()) {
+            pagamentoMensal -= getdescMax();
         }
+        return pagamentoMensal;
     }
-    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.of("pt", "BR"));
 
+    public double calcPagMensalSemDesc(){
+        double taxaMensal = (getTaxaJurosAnual() / 12.0) / 100.0;
+        int numeroPagamentos = getPrazoFinanciamento() * 12;
+        return getValorImovel() * (taxaMensal * Math.pow(1 + taxaMensal, numeroPagamentos)) /
+                (Math.pow(1 + taxaMensal, numeroPagamentos) - 1);
+        }
+
+
+    //Método para Cálculo do Juros Mensal
+    public void calcJurosMensal() {
+            int numMeses = getPrazoFinanciamento() * 12;
+            double pagMensal = calcPagMensal();
+            double jurosMensal;
+            jurosMensal = (pagMensal * numMeses) - getValorImovel();
+            while (jurosMensal < getdescMax()) {
+                try {
+                throw new DescontoMaiorDoQueJurosException("Taxa de juros mensal é menor que o valor de desconto," +
+                                "por favor");
+                } catch (DescontoMaiorDoQueJurosException e) {
+                    System.out.println(e.getMessage());
+                    double novaTaxaJuros = InterfaceUsuario.taxaDeJuros();
+                    setTaxaJurosAnual(novaTaxaJuros);
+                    pagMensal = calcPagMensal();
+                    jurosMensal = (pagMensal * numMeses) - getValorImovel();
+                }
+            }
+    }
+
+    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.of("pt", "BR"));
     // Método para Display
     public String toString() {
         return "\nCasa" +
                 "\nº Valor do Apartamento: " + currencyFormat.format(getValorImovel()) +
-                "\nº Valor do financiamento: " + currencyFormat.format(calPagTotal()) +
-                "\nº Valor da taxa de juros: " + (getTaxaJurosAnual()) + "%" +
-                "\nº Valor da parcela: " + currencyFormat.format(calcPagMensal()) +
-                "\nº Parcela com desconto: " + currencyFormat.format(getDescParc()) +
-                "\nº Área Construída: " + getAreaConstruida() + "m²" +
+                "\nº Prazo de financiamento: " + getPrazoFinanciamento() + " anos" +
+                "\nº Valor da taxa de juros Anual: " + (getTaxaJurosAnual()) + "%" +
+                "\nº Valor da parcela sem desconto: " + currencyFormat.format(calcPagMensalSemDesc()) +
+                "\nº Desconto máximo de: " + currencyFormat.format(descMax) +
+                "\nº Valor final da parcela: " + currencyFormat.format(calcPagMensal()) +
                 "\nº Área do Terreno: " + getAreaTerreno() + "m²" +
-                "\nº Prazo de financiamento: " + getPrazoFinanciamento() + " anos";
+                "\nº Área Construída: " + getAreaConstruida() + "m²" +
+                "\nº Valor do financiamento: " + currencyFormat.format(calPagTotal());
     }
 }

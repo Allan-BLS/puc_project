@@ -1,16 +1,12 @@
 //pacote modelo
 package util;
-//Importação da classe Scanner para input de dados
-import java.text.NumberFormat;
+//Importação
 import java.util.InputMismatchException;
-import java.util.Locale;
 import java.util.Scanner;
 //Criação da classe InterfaceUsuário
 public class InterfaceUsuario {
     //Criação de um objeto da classe Scanner para uso na classe Financiamento
     private final static Scanner scanner = new Scanner(System.in);
-    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.of("pt", "BR"));
-
     //Método Valor do Imóvel
     public static double valorDoImovel() {
         double valorDoImovel;
@@ -23,7 +19,7 @@ public class InterfaceUsuario {
                 }
                 return valorDoImovel;
             } catch (InputMismatchException e) {
-                System.out.println("Valor inválido. Certifique-se de inserir um valor válido.\n");
+                System.out.println("Valor inválido, por favor digite novamente!\n");
                 scanner.nextLine();
             } catch (Exception e) {
                 System.out.println("Erro: " + e.getMessage());
@@ -43,7 +39,7 @@ public class InterfaceUsuario {
                 }
                 return financiamento;
             } catch (InputMismatchException e) {
-                System.out.println("Valor inválido. Certifique-se de inserir um valor válido.\n");
+                System.out.println("Valor inválido. por favor digite novamente!\n");
                 scanner.nextLine();
             }catch(Exception e){
                 System.out.print("Erro: " + e.getMessage());
