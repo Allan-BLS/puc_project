@@ -19,23 +19,13 @@ public class Apartamento extends Financiamento {
         this.numAndar = numAndar;
     }
     //Método para calcular taxa decrescente
-    public double taxaDesc(int numParc){
-        double desconto = 0.0;
-        if(numParc == 1){
-            desconto = 5.0;
-        } else if(numParc == 2){
-            desconto = 2.5;
-        } else if(numParc == 3) {
-            desconto = 0.5;
-        } else if(numParc == 4) {
-            desconto = 0.25;
-        } else if(numParc == 5) {
-            desconto = 0.5;
-        }
-
-        double valorDesconto = calcPagMensal() * desconto/100.0;
-        return calcPagMensal() - valorDesconto;
+    public double calcPagMensal() {
+        double taxaJurosMensal = (getTaxaJurosAnual() / 12) / 100;
+        int numPagamentos = getPrazoFinanciamento() * 12;
+        double taxaDecrescente = (getTaxaJurosAnual()/ numPagamentos) / 100.0;
+        return (getValorImovel() / numPagamentos) * (1 + taxaJurosMensal + taxaDecrescente);
     }
+
     NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.of("pt", "BR"));
     // Método String para display
     public String toString() {
@@ -44,11 +34,6 @@ public class Apartamento extends Financiamento {
                 "\nº Prazo de financiamento: " + getPrazoFinanciamento() + " anos" +
                 "\nº Valor da taxa de juros: " + (getTaxaJurosAnual()) + "%" +
                 "\nº Valor da parcela: " + currencyFormat.format(calcPagMensal()) +
-                "\nº (1ª) Parcela com desconto: " + currencyFormat.format(taxaDesc(1)) +
-                "\nº (2ª) Parcela com desconto: " + currencyFormat.format(taxaDesc(2)) +
-                "\nº (3ª) Parcela com desconto: " + currencyFormat.format(taxaDesc(3)) +
-                "\nº (4ª) Parcela com desconto: " + currencyFormat.format(taxaDesc(4)) +
-                "\nº (5ª) Parcela com desconto: " + currencyFormat.format(taxaDesc(5)) +
                 "\nº Número de Vagas: " + getNumVagas() +
                 "\nº Número do Andar: " + getNumAndar() + "º andar" +
                 "\nº Valor do financiamento: " + currencyFormat.format(calPagTotal());

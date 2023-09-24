@@ -1,4 +1,4 @@
-package Dados_Arquivo;
+package dados_arquivo;
 
 public class Serializado {
 }
