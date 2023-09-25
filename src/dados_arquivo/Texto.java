@@ -9,14 +9,13 @@ import java.util.ArrayList;
 public class Texto {
     public static void salvarDados(ArrayList<Financiamento> listaFinanciamento) throws IOException {
         FileWriter out;
-        int contLetra = 0;
         try {
             out = new FileWriter("Dados_Financiamento.txt");
             for (Financiamento financiamento : listaFinanciamento) {
-                out.write(financiamento.toString() + "\n"); // Escreva um financiamento por linha
+                out.write(financiamento.toString() + "\n");
             }
             System.out.println("Seus dados foram salvos com sucesso!\n");
-            out.close(); // fecha arquivo de saída
+            out.close();
         }catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }

@@ -1,5 +1,6 @@
 package modelo;
-public class DescontoMaiorDoQueJurosException extends Exception {
+import java.io.Serializable;
+public class DescontoMaiorDoQueJurosException extends Exception implements Serializable {
     public DescontoMaiorDoQueJurosException(String msg) {
         super(msg);
     }

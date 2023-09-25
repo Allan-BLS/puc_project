@@ -1,7 +1,8 @@
 package modelo;
 import java.text.NumberFormat;
 import java.util.Locale;
-public class Apartamento extends Financiamento {
+import java.io.Serializable;
+public class Apartamento extends Financiamento implements Serializable {
     //Atributos da classe
     private final int numVagas;
     private final int numAndar;

@@ -1,7 +1,8 @@
 package modelo;
 import java.text.NumberFormat;
 import java.util.Locale;
-public class Terreno extends Financiamento {
+import java.io.Serializable;
+public class Terreno extends Financiamento implements Serializable {
     //Atributos da Classe
     private final String tipoZona;
     //Getters para acessos dos atributos encapsulados

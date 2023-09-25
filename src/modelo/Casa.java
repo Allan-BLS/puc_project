@@ -2,7 +2,8 @@ package modelo;
 import java.text.NumberFormat;
 import java.util.Locale;
 import util.InterfaceUsuario;
-public class Casa extends Financiamento {
+import java.io.Serializable;
+public class Casa extends Financiamento implements Serializable {
     //Atributos da classe
     private final double descMax = 100;
     private final int areaConstruida;
