@@ -14,15 +14,27 @@ public class Serializado {
             throw new RuntimeException(e);
         }
     }
-    public static ArrayList<Financiamento> lerDadosSerializados(String Dados_Financiamento) {
+    public static ArrayList<Financiamento> lerDadosSerializados(String arquivo) throws IOException, ClassNotFoundException {
         ObjectInputStream inputStream;
+        ArrayList<?> listaDeserializada = new ArrayList<>();
         try {
-            inputStream = new ObjectInputStream(new FileInputStream(Dados_Financiamento));
-            return (ArrayList<Financiamento>)inputStream.readObject();
-        } catch (IOException| ClassNotFoundException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
+            inputStream = new ObjectInputStream(new FileInputStream(arquivo));
+            listaDeserializada = (ArrayList<?>) inputStream.readObject();
+            inputStream.close();
+        } catch (EOFException ex) {
+            System.out.println(ex.getMessage());
         }
+
+        // Criar uma nova lista do tipo ArrayList<Financiamento>
+        ArrayList<Financiamento> listaFinanciamento = new ArrayList<>();
+
+        // Adicionar os elementos verificados à nova lista
+        for (Object item : listaDeserializada) {
+            if (item instanceof Financiamento) {
+                listaFinanciamento.add((Financiamento) item);
+            }
+        }
+        return listaFinanciamento;
     }
 }
 

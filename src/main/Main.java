@@ -14,7 +14,7 @@ import static dados_arquivo.Serializado.salvarDadosSerializados;
 //Criação da classe Main
 public class Main {
     //Começo do programa
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         //Criação da lista
         ArrayList<Financiamento> listaFinanciamento = new ArrayList<>();
 
@@ -42,12 +42,12 @@ public class Main {
             totalFinanciamentos += contador.calPagTotal();
         }
         //Display dos valores totais dos financiamentos
-        System.out.println("\n==============TOTAL==============");
+        System.out.println("\n======================TOTAL===========================");
         System.out.println("Total de todos os imóveis: " + currencyFormat.format(totalImoveis));
         System.out.println("Total de todos os financiamentos: " + currencyFormat.format(totalFinanciamentos));
 
         //Opção para salvar os dados
-        System.out.println("============================\n");
+        System.out.println("======================================================\n");
 
         //Salvar/Ler Dados_Texto
         dados_arquivo.Texto.salvarDados((listaFinanciamento));
@@ -56,6 +56,8 @@ public class Main {
         //Salvar/Ler Dados_Serializado
         salvarDadosSerializados(listaFinanciamento,"Dados_Financiamento_Serializados.ser");
         String dados = String.valueOf(lerDadosSerializados("Dados_Financiamento_Serializados.ser"));
+        System.out.println("\nSeus dados Serializados foram salvos com sucesso!");
+        System.out.println("\nAbrindo leitura do arquivo Dados_Financiamento_Serializados.ser: ");
         System.out.println(dados);
 
     }

@@ -24,7 +24,7 @@ public class Texto {
     public static void lerDados(ArrayList<Financiamento> listaFinanciamento) throws IOException {
         FileReader in;
         try {
-            System.out.println("Abrindo leitura do arquivo:");
+            System.out.println("Abrindo leitura do arquivo Dados_Financiamento.txt:");
             in = new FileReader("Dados_Financiamento.txt");
             int c;
             while ((c = in.read()) != -1)
