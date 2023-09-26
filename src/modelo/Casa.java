@@ -55,8 +55,7 @@ public class Casa extends Financiamento implements Serializable {
             jurosMensal = (pagMensal * numMeses) - getValorImovel();
             while (jurosMensal < getdescMax()) {
                 try {
-                throw new DescontoMaiorDoQueJurosException("Taxa de juros mensal é menor que o valor de desconto," +
-                                "por favor");
+                throw new DescontoMaiorDoQueJurosException("Taxa de juros mensal é menor que o valor de desconto.");
                 } catch (DescontoMaiorDoQueJurosException e) {
                     System.out.println(e.getMessage());
                     double novaTaxaJuros = InterfaceUsuario.taxaDeJuros();
